@@ -81,3 +81,73 @@ app.post("/users", (req: Request, res: Response) => {
   
     res.status(201).send("Compra feita com sucesso!");
   });
+
+// getProductsById
+app.get('/products/:id', (req: Request, res: Response) => {
+    const {id} = req.params
+    const result = products.find((product) => product.id === id)
+    res.status(200).send(result) 
+});
+
+// getUserPurchasesByUserId
+app.get('/purchases/:userId', (req: Request, res: Response) => {
+    const {userId} = req.params
+    const result = purchase.find((purchases) => purchases.userId === userId)
+    res.status(200).send(result) 
+})
+
+// deleteUserById
+app.delete('/users/:id', (req:Request, res:Response) => {
+    const {id} = req.params
+    const result = users.findIndex((user) => {
+        return user.id === id
+    })
+
+    result < 0 ? res.status(404).send("Usuário não existe.") :
+    (users.splice(result, 1), res.status(202).send("Usuário excluído com sucesso!") )
+})
+
+// deleteProductById 
+app.delete('/products/:id', (req:Request, res:Response) => {
+    const {id} = req.params
+    const result = products.findIndex((product) => {
+        return product.id === id
+    })
+
+    result < 0 ? res.status(404).send("Produto não existe.") :
+    (products.splice(result, 1), res.status(202).send("Produto excluído com sucesso!") )
+})
+
+// editUserById
+app.put('/users/:id', (req:Request, res:Response) => {
+    const {id} = req.params
+    const newId = req.body.id
+    const {email, password} = req.body
+
+    const findUserToEdit = users.find((user) => user.id === id)
+
+    if (findUserToEdit) {
+        findUserToEdit.id = newId || findUserToEdit.id
+        findUserToEdit.email = email|| findUserToEdit.email
+        findUserToEdit.password = password || findUserToEdit.password
+        
+    }
+    res.status(200).send("Usuário atualizado com sucesso!")
+}) 
+
+// editProductById
+app.put('/products/:id', (req:Request, res:Response) => {
+    const {id} = req.params
+    const newId = req.body.id
+    const {name, price, category} = req.body
+
+    const findProductToEdit = products.find((product) => product.id === id)
+
+    if (findProductToEdit) {
+        findProductToEdit.id = newId || findProductToEdit.id
+        findProductToEdit.name = name || findProductToEdit.name
+        findProductToEdit.price = price || findProductToEdit.price
+        findProductToEdit.category = category || findProductToEdit.category
+    }
+    res.status(200).send("Produto atualizado com sucesso!")
+}) 
