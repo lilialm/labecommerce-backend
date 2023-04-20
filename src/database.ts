@@ -110,8 +110,3 @@ export function queryProductsByName(name: string): Product | undefined {
 export function getAllPurchasesFromUserId(id: string): Purchase[] {
     return purchase.filter((item) => { return item.userId === id })
 }
-
-
-
-
-const result = purchase.reduce((acc, current) => acc + (current.quantity * current.totalPrice), 0)
