@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = require("./database");
-console.log(database_1.products);
-console.log(database_1.purchase);
-console.log(database_1.users);
+(0, database_1.createPurchase)("U3", "P3", 2, 78.8);
+console.table((0, database_1.getAllPurchasesFromUserId)("U3"));
 //# sourceMappingURL=index.js.map

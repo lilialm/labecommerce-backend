@@ -1,3 +1,10 @@
+export enum CATEGORY {
+
+  STREAMING = "Serviço de Streaming",
+  LIVETV = "Tv ao Vivo",
+  OPENTV = "Tv Aberta"
+};
+
 export type User = {
     id: string;
     email: string;
