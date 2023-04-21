@@ -23,8 +23,6 @@ VALUES (
         "678923"
     );
 
-SELECT * FROM users;
-
 CREATE TABLE
     products (
         id TEXT NOT NULL UNIQUE PRIMARY KEY,
@@ -57,6 +55,40 @@ VALUES (
         "Jogos"
     ), ("p5", "FIFA 23", 89, "Jogos");
 
-SELECT * FROM products;
+SELECT * FROM users AS getAllUsers;
 
-DROP TABLE products;
+SELECT * FROM products AS getAllProducts;
+
+SELECT *
+FROM
+    products AS searchProductByName
+WHERE name LIKE "%FIFA%";
+
+INSERT INTO users VALUES ("u4", "lucasorsi@hotmail.com", "456109");
+
+INSERT INTO products
+VALUES (
+        "p6",
+        "Xbox Series S",
+        2000,
+        "Eletrônicos"
+    );
+
+SELECT * FROM products AS getProductsById WHERE id = "p6";
+
+DELETE FROM users WHERE id = "u3";
+
+DELETE FROM products WHERE id = "p2";
+
+UPDATE users SET email = "lilianalmeida@gmail.com" WHERE id = "u1";
+
+UPDATE products SET price = 1999 WHERE id = "p6";
+
+SELECT * FROM users ORDER BY email ASC;
+
+SELECT * FROM products ORDER BY price ASC LIMIT 20 OFFSET 0;
+
+SELECT *
+FROM products
+WHERE price >= 150 AND price < 300
+ORDER BY "price" ASC;
