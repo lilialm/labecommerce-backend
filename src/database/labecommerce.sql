@@ -3,22 +3,27 @@
 CREATE TABLE
     users (
         id TEXT NOT NULL UNIQUE PRIMARY KEY,
+        name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        created_at TEXT NOT NULL DEFAULT (DATETIME())
     );
 
 INSERT INTO
-    users (id, email, password)
+    users (id, name, email, password)
 VALUES (
         "u1",
+        "Lilian Almeida",
         "lili.l2002@hotmail.com",
         "123456"
     ), (
         "u2",
+        "Uriel Bochi",
         "urielbochi@gmail.com",
         "785467"
     ), (
         "u3",
+        "Matheus Pepe",
         "matheuspepe@gmail.com",
         "678923"
     );
@@ -28,40 +33,57 @@ CREATE TABLE
         id TEXT NOT NULL UNIQUE PRIMARY KEY,
         name TEXT NOT NULL,
         price REAL NOT NULL,
-        category TEXT NOT NULL
+        description TEXT NOT NULL,
+        image_url TEXT NOT NULL
     );
 
 INSERT INTO
-    products (id, name, price, category)
+    products (
+        id,
+        name,
+        price,
+        description,
+        image_url
+    )
 VALUES (
         "p1",
         "Camêra Cybershot",
         200,
-        "Eletrônicos"
+        "Eletrônicos",
+        "https://s2.glbimg.com/SbFvjrunYZV7zDTbsq9XTVFjkdI=/0x0:600x450/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2021/6/G/AaEvGATm6rjo6ShUBsJA/2011-07-05-sony-cyber-shot-dsc-w180.jpg"
     ), (
         "p2",
         "Playstation 5",
         3500,
-        "Eletrônicos"
+        "Eletrônicos",
+        "https://images.kabum.com.br/produtos/fotos/238670/console-sony-playstation-5-edicao-digital_1634132113_original.jpg"
     ), (
         "p3",
         "Horizon Forbidden West",
         199,
-        "Jogos"
+        "Jogos",
+        "https://image.api.playstation.com/vulcan/ap/rnd/202107/3100/ki0STHGAkIF06Q4AU8Ow4OkV.png"
     ), (
         "p4",
         "God of War Ragnarok",
         199,
-        "Jogos"
-    ), ("p5", "FIFA 23", 89, "Jogos");
+        "Jogos",
+        "https://image.api.playstation.com/vulcan/ap/rnd/202207/1210/4xJ8XB3bi888QTLZYdl7Oi0s.png"
+    ), (
+        "p5",
+        "FIFA 23",
+        89,
+        "Jogos",
+        "https://image.api.playstation.com/vulcan/ap/rnd/202301/0312/GU1vXFJpbzGYNV6UN3U0Cnnb.png"
+    );
 
 CREATE TABLE
     purchases (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
-        total_price REAL NOT NULL,
-        paid INTEGER DEFAULT(0) NOT NULL,
-        delivered_at TEXT DEFAULT (DATETIME()) NOT NULL,
         buyer_id TEXT NOT NULL,
+        total_price REAL NOT NULL,
+        created_at TEXT DEFAULT (DATETIME()) NOT NULL,
+        paid INTEGER DEFAULT(0) NOT NULL,
         FOREIGN KEY (buyer_id) REFERENCES users(id)
     );
 
@@ -145,4 +167,5 @@ SELECT
     purchases.total_price
 FROM purchases_products
     INNER JOIN products ON product_id = products.id
-    INNER JOIN purchases ON purchase_id = purchases.id;
+    INNER JOIN purchases ON purchase_id = purchases.id
+WHERE users.id = "u1"
