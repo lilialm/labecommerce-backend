@@ -59,16 +59,19 @@ CREATE TABLE
     purchases (
         id TEXT PRIMARY KEY UNIQUE NOT NULL,
         total_price REAL NOT NULL,
-        paid INTEGER NOT NULL,
-        created_at TEXT,
+        paid INTEGER DEFAULT(0) NOT NULL,
+        delivered_at TEXT DEFAULT (DATETIME()) NOT NULL,
         buyer_id TEXT NOT NULL,
         FOREIGN KEY (buyer_id) REFERENCES users(id)
     );
 
-INSERT INTO purchases
-VALUES ("pch1", 600, 0, NULL, "u1"), ("pch2", 1999, 1, NULL, "u2"), ("pch3", 398, 1, NULL, "u2");
+DROP TABLE purchases;
 
-INSERT INTO purchases VALUES ("pch4", 1999, 0, "25/03/2023", "u1");
+INSERT INTO
+    purchases (id, total_price, paid, buyer_id)
+VALUES ("pch1", 600, 0, "u1"), ("pch2", 1999, 1, "u2"), ("pch3", 398, 1, "u2");
+
+INSERT INTO purchases VALUES ("pch5", 3500, 0, "25/03/2023", "u1");
 
 SELECT * FROM users AS getAllUsers;
 
@@ -91,6 +94,18 @@ VALUES (
         "Eletrônicos"
     );
 
+CREATE TABLE
+    purchases_products (
+        purchase_id TEXT NOT NULL,
+        product_id TEXT NOT NULL,
+        quantity INTEGER DEFAULT(1) NOT NULL,
+        FOREIGN KEY (purchase_id) REFERENCES purchases(id),
+        FOREIGN KEY (product_id) REFERENCES products(id)
+    );
+
+INSERT INTO purchases_products
+VALUES ("pch1", "p1", 3), ("pch2", "p6", 1), ("pch3", "p4", 2), ("pch4", "p2", 1);
+
 SELECT * FROM products AS getProductsById WHERE id = "p6";
 
 DELETE FROM users WHERE id = "u3";
@@ -111,11 +126,23 @@ WHERE price >= 150 AND price < 300
 ORDER BY "price" ASC;
 
 SELECT
-    purchases.id,
-    users.id,
-    users.email,
-    purchases.total_price,
-    purchases.paid,
-    purchases.created_at
+    purchases.id AS idDaCompra,
+    users.id AS idDoUsuario,
+    users.email AS emailDoUsuario,
+    purchases.total_price AS precoTotal,
+    purchases.paid AS pago,
+    purchases.delivered_at AS entregueEm
 FROM purchases
     INNER JOIN users ON purchases.buyer_id = users.id;
+
+SELECT
+    purchase_id AS idPurchases,
+    purchases.buyer_id AS idUsers,
+    product_id AS idProducts,
+    products.name AS productsName,
+    products.price,
+    quantity,
+    purchases.total_price
+FROM purchases_products
+    INNER JOIN products ON product_id = products.id
+    INNER JOIN purchases ON purchase_id = purchases.id;
