@@ -55,9 +55,26 @@ VALUES (
         "Jogos"
     ), ("p5", "FIFA 23", 89, "Jogos");
 
+CREATE TABLE
+    purchases (
+        id TEXT PRIMARY KEY UNIQUE NOT NULL,
+        total_price REAL NOT NULL,
+        paid INTEGER NOT NULL,
+        created_at TEXT,
+        buyer_id TEXT NOT NULL,
+        FOREIGN KEY (buyer_id) REFERENCES users(id)
+    );
+
+INSERT INTO purchases
+VALUES ("pch1", 600, 0, NULL, "u1"), ("pch2", 1999, 1, NULL, "u2"), ("pch3", 398, 1, NULL, "u2");
+
+INSERT INTO purchases VALUES ("pch4", 1999, 0, "25/03/2023", "u1");
+
 SELECT * FROM users AS getAllUsers;
 
 SELECT * FROM products AS getAllProducts;
+
+SELECT * FROM purchases AS getAllPurchases;
 
 SELECT *
 FROM
@@ -92,3 +109,13 @@ SELECT *
 FROM products
 WHERE price >= 150 AND price < 300
 ORDER BY "price" ASC;
+
+SELECT
+    purchases.id,
+    users.id,
+    users.email,
+    purchases.total_price,
+    purchases.paid,
+    purchases.created_at
+FROM purchases
+    INNER JOIN users ON purchases.buyer_id = users.id;
