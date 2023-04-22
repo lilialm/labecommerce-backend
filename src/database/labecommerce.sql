@@ -87,13 +87,9 @@ CREATE TABLE
         FOREIGN KEY (buyer_id) REFERENCES users(id)
     );
 
-DROP TABLE purchases;
-
 INSERT INTO
-    purchases (id, total_price, paid, buyer_id)
-VALUES ("pch1", 600, 0, "u1"), ("pch2", 1999, 1, "u2"), ("pch3", 398, 1, "u2");
-
-INSERT INTO purchases VALUES ("pch5", 3500, 0, "25/03/2023", "u1");
+    purchases (id, buyer_id, total_price, paid)
+VALUES ("pch1", "u1", 600, 0), ("pch2", "u2", 1999, 1), ("pch3", "u2", 398, 1), ("pch5", "u1", 3500, 0);
 
 SELECT * FROM users AS getAllUsers;
 
